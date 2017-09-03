@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterPhysics.CSharp", "WaterPhysics.CSharp.csproj", "{0EE07B85-6836-F13A-9361-F0E839546390}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterPhysics.CSharp.Editor", "WaterPhysics.CSharp.Editor.csproj", "{0D8CDBFC-5720-1FA2-37D9-1B2DE43AA9AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EE07B85-6836-F13A-9361-F0E839546390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EE07B85-6836-F13A-9361-F0E839546390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EE07B85-6836-F13A-9361-F0E839546390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EE07B85-6836-F13A-9361-F0E839546390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D8CDBFC-5720-1FA2-37D9-1B2DE43AA9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D8CDBFC-5720-1FA2-37D9-1B2DE43AA9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D8CDBFC-5720-1FA2-37D9-1B2DE43AA9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D8CDBFC-5720-1FA2-37D9-1B2DE43AA9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

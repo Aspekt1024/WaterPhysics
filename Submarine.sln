@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Submarine.CSharp", "Submarine.CSharp.csproj", "{2950C7B3-1E14-066D-CE01-5902A42582EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Submarine.CSharp.Editor", "Submarine.CSharp.Editor.csproj", "{0493E745-B68B-B2FC-D541-10CD2E98FACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2950C7B3-1E14-066D-CE01-5902A42582EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2950C7B3-1E14-066D-CE01-5902A42582EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2950C7B3-1E14-066D-CE01-5902A42582EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2950C7B3-1E14-066D-CE01-5902A42582EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0493E745-B68B-B2FC-D541-10CD2E98FACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0493E745-B68B-B2FC-D541-10CD2E98FACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0493E745-B68B-B2FC-D541-10CD2E98FACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0493E745-B68B-B2FC-D541-10CD2E98FACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

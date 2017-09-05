@@ -7,17 +7,27 @@ public class Buoyancy : MonoBehaviour {
     private Rigidbody body;
     private Mesh submarineMesh;
     private WaterControl waterControl;
+    private GameObject sprayPrefab;
+
+    private float sprayTimer;
+    private const float sprayInterval = 0.01f;
     
     private void Start()
     {
         body = GetComponent<Rigidbody>();
         submarineMesh = GetComponent<MeshFilter>().mesh;
         waterControl = FindObjectOfType<WaterControl>();
+        sprayPrefab = Resources.Load<GameObject>("ParticleEffects/Spray");
     }
 
 
     private void FixedUpdate()
     {
+        if (sprayTimer > 0f)
+        {
+            sprayTimer -= Time.deltaTime;
+        }
+
         for (int i = 0; i < submarineMesh.triangles.Length; i += 3)
         {
             int[] verticesIndex = new int[3]
@@ -63,8 +73,15 @@ public class Buoyancy : MonoBehaviour {
         Vector3 point = center;
         point.y = waterControl.GetWaveYPos(point);
 
-            if (highestY > point.y && lowestY < point.y)
+        if (highestY > point.y && lowestY < point.y)
         {
+            if (sprayTimer <= 0f)
+            {
+                //ParticleSystem spray = Instantiate(sprayPrefab).GetComponent<ParticleSystem>();
+                //spray.transform.position = (point);
+                //Destroy(spray.gameObject, 1f);
+                //sprayTimer = sprayInterval;
+            }
             Debug.DrawLine(point, point + Vector3.up, Color.cyan);
         }
     }

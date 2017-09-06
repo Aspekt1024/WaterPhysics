@@ -2,34 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SubHinge : MonoBehaviour {
+public class SubmarineSpecial : MonoBehaviour {
     
     public Transform HingeJoint;
     public Transform Hatch;
-
     public Transform Flag;
     
-	void Start () {
-		
-	}
-	
-	private void Update () {
-		if (Input.GetKeyUp("a"))
-        {
-            StartCoroutine(OpenHatch());
-        }
-	}
+    private Rigidbody body;
+    private bool specialActivated;
 
-    private IEnumerator OpenHatch()
+    private void Start()
+    {   
+        body = GetComponent<Rigidbody>();
+    }
+
+    public void ToggleSpecial()
     {
-        //float startY = 6f;
-        //float endY = 10.5f;
-        //float startX = 70f;
-        //float endX = 57f;
+        if (specialActivated)
+        {
+            return;
+        }
+        else
+        {
+            specialActivated = true;
+            StartCoroutine(SpecialAnimationRoutine());
+        }
+    }
 
-        //Vector3 endPos = new Vector3(endX, endY, Submarine.position.z);
-        //Vector3 startPos = new Vector3(startX, startY, Submarine.position.z);
-        
+    private IEnumerator SpecialAnimationRoutine()
+    {
+        yield return new WaitForSeconds(1.2f);
+
         float totalRotation = 120f;
         while (totalRotation > 1f)
         {
@@ -39,6 +42,7 @@ public class SubHinge : MonoBehaviour {
             yield return null;
         }
 
+        Flag.GetComponentInChildren<Cloth>().externalAcceleration = new Vector3(3, 0, -1);
         float flagRaiseDistance = 3f;
         while (flagRaiseDistance > 0.03f)
         {
@@ -47,5 +51,7 @@ public class SubHinge : MonoBehaviour {
             Flag.position += Flag.transform.up * raiseDist;
             yield return null;
         }
+
+        Flag.GetComponentInChildren<Cloth>().externalAcceleration = new Vector3(30, 0, -10);
     }
 }

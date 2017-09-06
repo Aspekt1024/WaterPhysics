@@ -1,32 +1,56 @@
 using UnityEngine;
 using System.Collections;
 
-public class Buoyancy : MonoBehaviour {
-	public float bounceDamp;
-
+public class BuoyancyComponent : MonoBehaviour {
+    public float BounceDampening;
+    
     private Rigidbody body;
     private Mesh submarineMesh;
     private WaterControl waterControl;
-    private GameObject sprayPrefab;
 
     private float sprayTimer;
     private const float sprayInterval = 0.01f;
     
+    private enum State
+    {
+        None, Enabled, Disabled
+    }
+    private State state;
+
     private void Start()
     {
-        body = GetComponent<Rigidbody>();
+        body = GetComponentInParent<Rigidbody>();
         submarineMesh = GetComponent<MeshFilter>().mesh;
         waterControl = FindObjectOfType<WaterControl>();
-        sprayPrefab = Resources.Load<GameObject>("ParticleEffects/Spray");
     }
-
 
     private void FixedUpdate()
     {
-        if (sprayTimer > 0f)
+        switch(state)
         {
-            sprayTimer -= Time.deltaTime;
+            case State.None:
+                break;
+            case State.Disabled:
+                break;
+            case State.Enabled:
+                ApplyBuoyancy();
+                break;
         }
+
+    }
+
+    public void SetEnabled()
+    {
+        state = State.Enabled;
+    }
+
+    public void SetDisabled()
+    {
+        state = State.Disabled;
+    }
+
+    private void ApplyBuoyancy()
+    {
 
         for (int i = 0; i < submarineMesh.triangles.Length; i += 3)
         {
@@ -70,20 +94,15 @@ public class Buoyancy : MonoBehaviour {
             }
         }
 
+#if UNITY_EDITOR
+        // Show edges intersecting the water because... it looks cool
         Vector3 point = center;
         point.y = waterControl.GetWaveYPos(point);
-
         if (highestY > point.y && lowestY < point.y)
         {
-            if (sprayTimer <= 0f)
-            {
-                //ParticleSystem spray = Instantiate(sprayPrefab).GetComponent<ParticleSystem>();
-                //spray.transform.position = (point);
-                //Destroy(spray.gameObject, 1f);
-                //sprayTimer = sprayInterval;
-            }
             Debug.DrawLine(point, point + Vector3.up, Color.cyan);
         }
+#endif
     }
 
     private Vector3 GetCenterPoint(Vector3[] vertices)
@@ -104,12 +123,10 @@ public class Buoyancy : MonoBehaviour {
 
         if (forceFactor > 0f)
         {
-            Vector3 uplift = -Physics.gravity * (forceFactor - body.velocity.y * bounceDamp) / body.mass;
+            Vector3 uplift = -Physics.gravity * (forceFactor - body.velocity.y * BounceDampening) / body.mass;
             uplift.x = 0f;
             uplift.z = 0f;
             body.AddForceAtPosition(uplift * area, position);
-
-            //Debug.DrawLine(position, position + Vector3.up * uplift.y, Color.green);
         }
     }
 }

@@ -17,9 +17,9 @@ public class WaveTypes {
         float y = 0f;
         float z = position.z;
 
-        float waveType = z;
-
-        y += Mathf.Sin((timesinceStart * speed + waveType) / waveDistance) * scale;
+        y += Mathf.Sin((timesinceStart * speed +  z) / waveDistance) * scale;
+        y += 2 * Mathf.Sin((timesinceStart * speed + x) / waveDistance) * scale;
+        y += 0.5f * Mathf.Sin((timesinceStart * speed + x * z) / waveDistance) * scale;
 
         y += Mathf.PerlinNoise(x + noiseWalk, y + Mathf.Sin(timesinceStart * 0.1f)) * noiseStrength;
 

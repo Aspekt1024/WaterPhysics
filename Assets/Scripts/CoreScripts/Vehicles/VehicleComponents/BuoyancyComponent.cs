@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BuoyancyComponent : MonoBehaviour {
     public float BounceDampening;
+    public bool ShowBuoyancyEdges;
     
     private Rigidbody body;
     private Mesh submarineMesh;
@@ -51,29 +52,22 @@ public class BuoyancyComponent : MonoBehaviour {
 
     private void ApplyBuoyancy()
     {
-
+        Vector3[] vertices = new Vector3[3];
         for (int i = 0; i < submarineMesh.triangles.Length; i += 3)
         {
-            int[] verticesIndex = new int[3]
-            {
-                submarineMesh.triangles[i],
-                submarineMesh.triangles[i + 1],
-                submarineMesh.triangles[i + 2],
-            };
-
-            Vector3[] vertices = new Vector3[3]
-            {
-                transform.TransformPoint(submarineMesh.vertices[verticesIndex[0]]),
-                transform.TransformPoint(submarineMesh.vertices[verticesIndex[1]]),
-                transform.TransformPoint(submarineMesh.vertices[verticesIndex[2]])
-            };
+            vertices[0] = transform.TransformPoint(submarineMesh.vertices[submarineMesh.triangles[i]]);
+            vertices[1] = transform.TransformPoint(submarineMesh.vertices[submarineMesh.triangles[i + 1]]);
+            vertices[2] = transform.TransformPoint(submarineMesh.vertices[submarineMesh.triangles[i + 2]]);
 
             Vector3 triangleCenter = GetCenterPoint(vertices);
             float triangleArea = GetTriangleArea(vertices);
             float waterHeightAtCenter = waterControl.GetWaveYPos(triangleCenter);
             CalculateForceAtPosition(triangleCenter, triangleArea, waterHeightAtCenter);
-            CheckIntersectingVertices(vertices, triangleCenter, waterHeightAtCenter);
 
+            if (ShowBuoyancyEdges)
+            {
+                CheckIntersectingVertices(vertices, triangleCenter, waterHeightAtCenter);
+            }
         }
     }
 
@@ -94,15 +88,13 @@ public class BuoyancyComponent : MonoBehaviour {
             }
         }
 
-#if UNITY_EDITOR
         // Show edges intersecting the water because... it looks cool
         Vector3 point = center;
-        point.y = waterControl.GetWaveYPos(point);
+        point.y = waterHeight;
         if (highestY > point.y && lowestY < point.y)
         {
             Debug.DrawLine(point, point + Vector3.up, Color.cyan);
         }
-#endif
     }
 
     private Vector3 GetCenterPoint(Vector3[] vertices)

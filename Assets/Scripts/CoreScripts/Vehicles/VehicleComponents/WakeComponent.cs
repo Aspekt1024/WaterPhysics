@@ -37,7 +37,7 @@ public class WakeComponent : MonoBehaviour {
     {
         WakeEffectTf.position = new Vector3(FloatingWakePoint.position.x, WakeEffectTf.position.y, FloatingWakePoint.position.z);
         Vector3 lookTargetPosition = transform.position + transform.up * 10;
-        lookTargetPosition.y = 0f;
+        lookTargetPosition.y = 0.2f;
         wakeEffect.transform.LookAt(lookTargetPosition);
         wakeEffect.transform.eulerAngles = new Vector3(90, wakeEffect.transform.eulerAngles.y, 70f);
 

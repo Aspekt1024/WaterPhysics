@@ -17,7 +17,7 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     #region Lifecycle
     private void Start ()
     {
-        state = State.Floating;
+        //state = State.Floating;
         GetSubmarineComponents();
         SetBounceDampening(0.4f);
         buoyancyComponent.SetEnabled();
@@ -39,9 +39,26 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
 	}
     #endregion
 
+    public void SetPaused()
+    {
+        GetComponent<Rigidbody>().isKinematic = true;
+        state = State.None;
+    }
+
+    public void UnPause()
+    {
+        GetComponent<Rigidbody>().isKinematic = false;
+        state = State.Floating;
+    }
+
     public State GetSubmarineState()
     {
         return state;
+    }
+
+    public void SetSubmarineState(State mode)
+    {
+        state = mode;
     }
 
     #region Interface Methods
@@ -54,7 +71,7 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     public void DisableBuoyancy() { buoyancyComponent.SetDisabled(); }
     public void EnableBuoyancy() { buoyancyComponent.SetEnabled(); }
     public void ToggleSpecial() { submarineSpecial.ToggleSpecial(); }
-
+    
     public bool SetFloatMode() {
         state = State.Floating;
         return true;
@@ -75,6 +92,12 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     public bool Accelerate()
     {
         movementComponent.Accelerate();
+        return true;
+    }
+
+    public bool TurboAccelerate()
+    {
+        movementComponent.TurboAccelerate();
         return true;
     }
 

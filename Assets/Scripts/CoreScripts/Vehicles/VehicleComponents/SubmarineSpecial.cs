@@ -8,12 +8,11 @@ public class SubmarineSpecial : MonoBehaviour {
     public Transform Hatch;
     public Transform Flag;
     
-    private Rigidbody body;
     private bool specialActivated;
 
     private void Start()
     {   
-        body = GetComponent<Rigidbody>();
+        Flag.gameObject.SetActive(false);
     }
 
     public void ToggleSpecial()
@@ -42,9 +41,10 @@ public class SubmarineSpecial : MonoBehaviour {
             yield return null;
         }
 
+        Flag.gameObject.SetActive(true);
         Flag.GetComponentInChildren<Cloth>().externalAcceleration = new Vector3(3, 0, -1);
         float flagRaiseDistance = 3f;
-        while (flagRaiseDistance > 0.03f)
+        while (flagRaiseDistance > 2.4f)
         {
             float raiseDist = Mathf.Lerp(0, flagRaiseDistance, Time.deltaTime * 2);
             flagRaiseDistance -= raiseDist;
@@ -53,5 +53,13 @@ public class SubmarineSpecial : MonoBehaviour {
         }
 
         Flag.GetComponentInChildren<Cloth>().externalAcceleration = new Vector3(30, 0, -10);
+        
+        while (flagRaiseDistance > 0.1f)
+        {
+            float raiseDist = Mathf.Lerp(0, flagRaiseDistance, Time.deltaTime * 2);
+            flagRaiseDistance -= raiseDist;
+            Flag.position += Flag.transform.up * raiseDist;
+            yield return null;
+        }
     }
 }

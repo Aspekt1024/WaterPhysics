@@ -5,14 +5,6 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour {
 
     public Transform ObjectToFollow;
-
-    private float distance;
-
-	// Use this for initialization
-	void Start () {
-        distance = Vector3.Distance(ObjectToFollow.position, transform.position);
-        
-	}
 	
 	// Update is called once per frame
 	void Update () {

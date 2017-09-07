@@ -6,4 +6,5 @@ public interface IHasMovement {
     bool TurnLeft();
     bool TurnRight();
     bool Accelerate();
+    bool TurboAccelerate();
 }

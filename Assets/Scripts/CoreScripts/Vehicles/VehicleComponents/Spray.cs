@@ -13,25 +13,24 @@ public class Spray : MonoBehaviour {
 
     private Vector3 probeDirection;
     private float probeAngle;
-    private float prevHeight;
 
     private float prevMagnitude;
 
-    // Use this for initialization
-    void Start () {
+    private AudioClip splash;
+        
+    private void Start ()
+    {
         waterControl = FindObjectOfType<WaterControl>();
         sprayParticles = SprayTf.GetComponentInChildren<ParticleSystem>();
         sprayParticles.Stop();
 
-	}
+        splash = Resources.Load<AudioClip>("Audio/watersplash");
+    }
 	
-	// Update is called once per frame
-	void Update () {
+	private void Update ()
+    {
         float waterHeight = waterControl.GetWaveYPos(SprayTf.position);
         SetSprayPos(waterHeight);
-        
-        prevHeight = SprayTf.position.y;
-
     }
 
 
@@ -42,18 +41,36 @@ public class Spray : MonoBehaviour {
         float yPos = height - BottomPoint.position.y + 0.5f * Time.deltaTime;
         float magnitude = Mathf.Clamp(yPos * Mathf.Sin(probeAngle), 0f, Vector3.Distance(TopPoint.position, BottomPoint.position) + 1f);
 
-        if (magnitude > prevMagnitude + 0.0f * Time.deltaTime && magnitude < Vector3.Distance(TopPoint.position, BottomPoint.position))
+        if (magnitude > prevMagnitude + 15f * Time.deltaTime && magnitude < Vector3.Distance(TopPoint.position, BottomPoint.position))
         {
             if (!sprayParticles.isPlaying)
             {
-                sprayParticles.Play();
+                StartCoroutine(SprayForSeconds(0.7f));
             }
         }
         else
         {
-            sprayParticles.Stop();
+            //sprayParticles.Stop();
         }
         prevMagnitude = magnitude;
         SprayTf.position = BottomPoint.position + magnitude * probeDirection;
+    }
+
+    private bool isTriggered;
+
+    private IEnumerator SprayForSeconds(float seconds)
+    {
+        if (isTriggered) yield break;
+        isTriggered = true;
+        sprayParticles.Play();
+        AudioSource a = FindObjectOfType<Submarine>().GetComponentInChildren<AudioSource>();
+        if (!a.isPlaying)
+        {
+            a.PlayOneShot(splash);
+        }
+        yield return new WaitForSeconds(seconds);
+        sprayParticles.Stop();
+        ParticleSystem.EmissionModule emission = sprayParticles.emission;
+        emission.enabled = false;
     }
 }

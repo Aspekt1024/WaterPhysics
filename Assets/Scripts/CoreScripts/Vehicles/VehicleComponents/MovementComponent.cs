@@ -20,17 +20,10 @@ public class MovementComponent : MonoBehaviour {
     {
         submarine = FindObjectOfType<Submarine>();
         body = submarine.GetComponent<Rigidbody>();
-
-        movement = Resources.Load<AudioClip>("Audio/waterfall3");
     }
 
     public bool Accelerate()
     {
-        var a = GetComponent<AudioSource>();
-        if (!a.isPlaying)
-        {
-            a.PlayOneShot(movement);
-        }
         body.AddForce(-transform.up * acceleration * body.mass);
         body.AddForceAtPosition(Vector3.up * body.mass, transform.position - transform.up * 2f);
         return true;

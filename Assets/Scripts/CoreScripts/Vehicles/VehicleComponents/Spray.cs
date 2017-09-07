@@ -15,11 +15,16 @@ public class Spray : MonoBehaviour {
     private float probeAngle;
 
     private float prevMagnitude;
+    private bool splashTriggered;
+    private Rigidbody submarineBody;
+    private AudioSource audio;
 
     private AudioClip splash;
         
     private void Start ()
     {
+        submarineBody = FindObjectOfType<Submarine>().GetComponent<Rigidbody>();
+        audio = submarineBody.GetComponent<AudioSource>();
         waterControl = FindObjectOfType<WaterControl>();
         sprayParticles = SprayTf.GetComponentInChildren<ParticleSystem>();
         sprayParticles.Stop();
@@ -32,8 +37,7 @@ public class Spray : MonoBehaviour {
         float waterHeight = waterControl.GetWaveYPos(SprayTf.position);
         SetSprayPos(waterHeight);
     }
-
-
+    
     private void SetSprayPos(float height)
     {
         probeDirection = Vector3.Normalize(TopPoint.position - BottomPoint.position);
@@ -41,36 +45,43 @@ public class Spray : MonoBehaviour {
         float yPos = height - BottomPoint.position.y + 0.5f * Time.deltaTime;
         float magnitude = Mathf.Clamp(yPos * Mathf.Sin(probeAngle), 0f, Vector3.Distance(TopPoint.position, BottomPoint.position) + 1f);
 
-        if (magnitude > prevMagnitude + 15f * Time.deltaTime && magnitude < Vector3.Distance(TopPoint.position, BottomPoint.position))
+        if (magnitude > prevMagnitude + 1f * Time.deltaTime && magnitude < Vector3.Distance(TopPoint.position, BottomPoint.position))
         {
             if (!sprayParticles.isPlaying)
             {
-                StartCoroutine(SprayForSeconds(0.7f));
+                if (submarineBody.velocity.y < -7f)
+                {
+                    StartCoroutine(SplashRoutine());
+                }
+                else
+                {
+                    sprayParticles.Play();
+                }
             }
         }
-        else
+        else if (!splashTriggered)
         {
-            //sprayParticles.Stop();
+            sprayParticles.Stop();
         }
         prevMagnitude = magnitude;
         SprayTf.position = BottomPoint.position + magnitude * probeDirection;
     }
 
-    private bool isTriggered;
 
-    private IEnumerator SprayForSeconds(float seconds)
+    private IEnumerator SplashRoutine()
     {
-        if (isTriggered) yield break;
-        isTriggered = true;
+        const float splashDuration = 0.7f;
+        
+        splashTriggered = true;
         sprayParticles.Play();
-        AudioSource a = FindObjectOfType<Submarine>().GetComponentInChildren<AudioSource>();
-        if (!a.isPlaying)
+        if (!audio.isPlaying)
         {
-            a.PlayOneShot(splash);
+            audio.PlayOneShot(splash);
         }
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSeconds(splashDuration);
         sprayParticles.Stop();
         ParticleSystem.EmissionModule emission = sprayParticles.emission;
         emission.enabled = false;
+        splashTriggered = false;
     }
 }

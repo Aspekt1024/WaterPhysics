@@ -11,7 +11,7 @@ public class WakeComponent : MonoBehaviour {
 
     private ParticleSystem wakeEffect;
     private Rigidbody body;
-    
+
     private void Start ()
     {
         wakeEffect = WakeEffectTf.GetComponent<ParticleSystem>();
@@ -20,6 +20,19 @@ public class WakeComponent : MonoBehaviour {
 	
 	private void Update ()
     {
+        if (body.isKinematic)
+        {
+            wakeEffect.Stop();
+            return;
+        }
+        else
+        {
+            if (wakeEffect.isStopped)
+            {
+                wakeEffect.Play();
+            }
+        }
+
         switch (SubmarineReference.GetSubmarineState())
         {
             case Submarine.State.Floating:
@@ -44,7 +57,7 @@ public class WakeComponent : MonoBehaviour {
         Vector3 velocity = body.velocity;
         velocity.y = 0;
         float speed = velocity.magnitude;
-
+        
         ParticleSystem.EmissionModule emission = wakeEffect.emission;
         emission.rateOverTime = speed * 70f / 3f;
     }

@@ -17,7 +17,7 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     #region Lifecycle
     private void Start ()
     {
-        //state = State.Floating;
+        state = State.Floating;
         GetSubmarineComponents();
         SetBounceDampening(0.4f);
         buoyancyComponent.SetEnabled();

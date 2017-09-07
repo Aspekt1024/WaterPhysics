@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour {
     private void Start ()
     {
         inputHandler = new InputHandler(this);
-        state = States.Paused;
+        state = States.Playing;
 	}
 	
 	private void Update ()

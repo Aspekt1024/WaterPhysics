@@ -12,6 +12,12 @@ public class BuoyancyComponent : MonoBehaviour {
     private float sprayTimer;
     private const float sprayInterval = 0.01f;
     
+    private enum Mode
+    {
+        Floating, Submerged, Periscope
+    }
+    private Mode mode;
+
     private enum State
     {
         None, Enabled, Disabled

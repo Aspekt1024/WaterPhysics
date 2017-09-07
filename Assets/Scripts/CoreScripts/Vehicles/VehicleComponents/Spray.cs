@@ -17,14 +17,14 @@ public class Spray : MonoBehaviour {
     private float prevMagnitude;
     private bool splashTriggered;
     private Rigidbody submarineBody;
-    private AudioSource audio;
+    private AudioSource audioSource;
 
     private AudioClip splash;
         
     private void Start ()
     {
         submarineBody = FindObjectOfType<Submarine>().GetComponent<Rigidbody>();
-        audio = submarineBody.GetComponent<AudioSource>();
+        audioSource = submarineBody.GetComponent<AudioSource>();
         waterControl = FindObjectOfType<WaterControl>();
         sprayParticles = SprayTf.GetComponentInChildren<ParticleSystem>();
         sprayParticles.Stop();
@@ -74,9 +74,9 @@ public class Spray : MonoBehaviour {
         
         splashTriggered = true;
         sprayParticles.Play();
-        if (!audio.isPlaying)
+        if (!audioSource.isPlaying)
         {
-            audio.PlayOneShot(splash);
+            audioSource.PlayOneShot(splash);
         }
         yield return new WaitForSeconds(splashDuration);
         sprayParticles.Stop();

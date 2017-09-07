@@ -11,13 +11,8 @@ public class BuoyancyComponent : MonoBehaviour {
 
     private float sprayTimer;
     private const float sprayInterval = 0.01f;
+    private float surfaceDistance;
     
-    private enum Mode
-    {
-        Floating, Submerged, Periscope
-    }
-    private Mode mode;
-
     private enum State
     {
         None, Enabled, Disabled
@@ -43,7 +38,24 @@ public class BuoyancyComponent : MonoBehaviour {
                 ApplyBuoyancy();
                 break;
         }
+    }
 
+    public void FloatMode()
+    {
+        surfaceDistance = 0f;
+        body.constraints = RigidbodyConstraints.None;
+    }
+
+    public void SubmergedMode()
+    {
+        surfaceDistance = -3f;
+        //body.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+
+    public void PeriscopeMode()
+    {
+        surfaceDistance = -1.5f;
+        body.constraints = RigidbodyConstraints.None;
     }
 
     public void SetEnabled()
@@ -67,7 +79,7 @@ public class BuoyancyComponent : MonoBehaviour {
 
             Vector3 triangleCenter = GetCenterPoint(vertices);
             float triangleArea = GetTriangleArea(vertices);
-            float waterHeightAtCenter = waterControl.GetWaveYPos(triangleCenter);
+            float waterHeightAtCenter = waterControl.GetWaveYPos(triangleCenter) + surfaceDistance;
             CalculateForceAtPosition(triangleCenter, triangleArea, waterHeightAtCenter);
 
             if (ShowBuoyancyEdges)

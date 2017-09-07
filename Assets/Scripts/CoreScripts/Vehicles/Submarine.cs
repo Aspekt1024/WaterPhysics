@@ -10,6 +10,8 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     }
     private State state;
 
+    private State startMode;
+
     private BuoyancyComponent buoyancyComponent;
     private MovementComponent movementComponent;
     private SubmarineSpecial submarineSpecial;
@@ -48,7 +50,19 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     public void UnPause()
     {
         GetComponent<Rigidbody>().isKinematic = false;
-        state = State.Floating;
+        state = startMode;
+        if (state == State.Floating)
+        {
+            buoyancyComponent.FloatMode();
+        }
+        else if (state == State.Periscope)
+        {
+            buoyancyComponent.PeriscopeMode();
+        }
+        else
+        {
+            buoyancyComponent.SubmergedMode();
+        }
     }
 
     public State GetSubmarineState()
@@ -58,7 +72,8 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
 
     public void SetSubmarineState(State mode)
     {
-        state = mode;
+        startMode = mode;
+        state = startMode;
     }
 
     #region Interface Methods
@@ -72,19 +87,23 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
     public void EnableBuoyancy() { buoyancyComponent.SetEnabled(); }
     public void ToggleSpecial() { submarineSpecial.ToggleSpecial(); }
     
-    public bool SetFloatMode() {
+    public bool SetFloatMode()
+    {
+        buoyancyComponent.FloatMode();
         state = State.Floating;
         return true;
     }
 
     public bool SetPeriscopeMode()
     {
+        buoyancyComponent.PeriscopeMode();
         state = State.Periscope;
         return true;
     }
 
     public bool SetSubmergedMode()
     {
+        buoyancyComponent.SubmergedMode();
         state = State.Submerged;
         return true;
     }

@@ -53,10 +53,10 @@ public class SceneDirectorManager : MonoBehaviour {
                 director = GetSceneDirector<Entrance1SceneDirector>();
                 break;
             case StartModes.Entrance2:
-                director = GetSceneDirector<Entrance1SceneDirector>();
+                director = GetSceneDirector<Entrance2SceneDirector>();
                 break;
             case StartModes.Entrance3:
-                director = GetSceneDirector<Entrance1SceneDirector>();
+                director = GetSceneDirector<Entrance3SceneDirector>();
                 break;
             case StartModes.Exit1:
                 director = GetSceneDirector<Exit1SceneDirector>();

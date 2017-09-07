@@ -6,8 +6,8 @@ public class Entrance2SceneDirector : BaseSceneDirector
 {
     protected override void InitialiseStartVariables()
     {
-        startPosition = new Vector3(59.78146f, -9.02f, 73.34393f);
-        startRotation = new Vector3(-90f, 0f, -83.035f);
-        startMode = Submarine.State.Submerged;
+        startPosition = new Vector3(76.31f, -1.84f, 94.96f);
+        startRotation = new Vector3(-90f, 0f, -135.807f);
+        startMode = Submarine.State.Periscope;
     }
 }

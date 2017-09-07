@@ -18,9 +18,9 @@ public class InputHandler {
     public KeyCode SET_ENTRANCE_SCENE1 = KeyCode.Keypad1;
     public KeyCode SET_ENTRANCE_SCENE2 = KeyCode.Keypad2;
     public KeyCode SET_ENTRANCE_SCENE3 = KeyCode.Keypad3;
-    public KeyCode SET_EXIT_SCENE1 = KeyCode.Keypad3;
-    public KeyCode SET_EXIT_SCENE2 = KeyCode.Keypad3;
-    public KeyCode SET_EXIT_SCENE3 = KeyCode.Keypad3;
+    public KeyCode SET_EXIT_SCENE1 = KeyCode.Keypad4;
+    public KeyCode SET_EXIT_SCENE2 = KeyCode.Keypad5;
+    public KeyCode SET_EXIT_SCENE3 = KeyCode.Keypad6;
     public KeyCode SET_FALLING_SCENE = KeyCode.Keypad7;
 
     private GameController gameController;
@@ -50,7 +50,7 @@ public class InputHandler {
 
         if (Input.GetKeyDown(SET_ENTRANCE_SCENE1)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance1);
         if (Input.GetKeyDown(SET_ENTRANCE_SCENE2)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance2);
-        if (Input.GetKeyDown(SET_ENTRANCE_SCENE3)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance2);
+        if (Input.GetKeyDown(SET_ENTRANCE_SCENE3)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance3);
         if (Input.GetKeyDown(SET_EXIT_SCENE1)) gameController.SetGameStart(SceneDirectorManager.StartModes.Exit1);
         if (Input.GetKeyDown(SET_EXIT_SCENE2)) gameController.SetGameStart(SceneDirectorManager.StartModes.Exit2);
         if (Input.GetKeyDown(SET_EXIT_SCENE3)) gameController.SetGameStart(SceneDirectorManager.StartModes.Exit3);

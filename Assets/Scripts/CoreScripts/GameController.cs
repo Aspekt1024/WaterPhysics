@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour {
 
     private enum States
     {
-        None, Playing, Waiting, Paused
+        None, Playing, Waiting, Paused, Unpausing, Pausing
     }
     private States state;
 
@@ -28,17 +28,23 @@ public class GameController : MonoBehaviour {
         {
             case States.None:
                 break;
-            case States.Playing:
+            case States.Unpausing:
                 Submarine.UnPause();
+                state = States.Playing;
+                break;
+            case States.Pausing:
+                Submarine.SetPaused();
+                state = States.Paused;
+                break;
+            case States.Playing:
                 inputHandler.ProcessInput();
                 break;
             case States.Waiting:
                 break;
             case States.Paused:
-                Submarine.SetPaused();
                 if (inputHandler.UnpausedPressed())
                 {
-                    state = States.Playing;
+                    state = States.Unpausing;
                 }
                 break;
         }
@@ -49,7 +55,7 @@ public class GameController : MonoBehaviour {
     public void SetGameStart(SceneDirectorManager.StartModes mode)
     {
         SceneDirectorManager.Instance.ResetToMode(mode);
-        state = States.Paused;
+        state = States.Pausing;
     }
     #endregion
 

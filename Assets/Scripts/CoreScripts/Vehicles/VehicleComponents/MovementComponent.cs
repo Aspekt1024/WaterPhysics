@@ -9,9 +9,9 @@ public class MovementComponent : MonoBehaviour {
     private Submarine submarine;
     private Rigidbody body;
 
-    private const float acceleration = 3f;
-    private const float turboAcceleration = 7f;
-    private const float turnRotation = 30f;
+    private const float acceleration = 5f;
+    private const float turboAcceleration = 12f;
+    private const float turnRotation = 60f;
     
     // TODO move this
     private AudioClip movement;

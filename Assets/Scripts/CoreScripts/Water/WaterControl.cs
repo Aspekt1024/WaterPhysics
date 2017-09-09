@@ -16,8 +16,15 @@ public class WaterControl : MonoBehaviour {
     private Vector3 oceanPos;
     private Vector3[] oceanVertices;
 
+    private static WaterControl instance;
+
     private void Start()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         waterMesh = GetComponent<MeshFilter>().mesh;
         oceanVertices = waterMesh.vertices;
         oceanPos = transform.position;
@@ -41,9 +48,9 @@ public class WaterControl : MonoBehaviour {
         timeSinceStart = Time.time;
     }
 
-    public float GetWaveYPos(Vector3 position)
+    public static float GetWaveYPos(Vector3 position)
     {
-        return WaveTypes.SinXWave(position, Speed, WaveScale, WaveDistance, 0, 0, timeSinceStart);
+        return WaveTypes.SinXWave(position, instance.Speed, instance.WaveScale, instance.WaveDistance, 0, 0, instance.timeSinceStart);
     }
 
     private IEnumerator UpdateWater()

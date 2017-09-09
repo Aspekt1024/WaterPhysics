@@ -64,7 +64,8 @@ public class WakeComponent : MonoBehaviour {
 
     private void SetWakePosition(float distance, float angle)
     {
-        WakeEffectTf.position = new Vector3(FloatingWakePoint.position.x, WakeEffectTf.position.y, FloatingWakePoint.position.z);
+        float yPos = WaterControl.GetWaveYPos(new Vector3(FloatingWakePoint.position.x, 0f, FloatingWakePoint.position.z));
+        WakeEffectTf.position = new Vector3(FloatingWakePoint.position.x, yPos, FloatingWakePoint.position.z);
         Vector3 lookTargetPosition = transform.position + transform.up * 10;
         lookTargetPosition.y = 0.2f;
         WakeEffectTf.LookAt(lookTargetPosition);
@@ -87,7 +88,7 @@ public class WakeComponent : MonoBehaviour {
         emission.rateOverTime = speed * 70f / 3f;
 
         ParticleSystem.MainModule main = wakeEffect.main;
-        main.startSpeed = speed;
+        main.startSpeed = speed/2f;
     }
 
     private void SetWakeSize(float size)

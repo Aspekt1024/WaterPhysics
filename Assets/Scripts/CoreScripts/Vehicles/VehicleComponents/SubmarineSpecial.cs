@@ -19,19 +19,19 @@ public class SubmarineSpecial : MonoBehaviour {
     {
         if (specialActivated)
         {
+            specialActivated = false;
+            StartCoroutine(ReverseSpecial());
             return;
         }
         else
         {
             specialActivated = true;
-            StartCoroutine(SpecialAnimationRoutine());
+            StartCoroutine(ActivateSpecial());
         }
     }
 
-    private IEnumerator SpecialAnimationRoutine()
+    private IEnumerator ActivateSpecial()
     {
-        yield return new WaitForSeconds(1.2f);
-
         float totalRotation = 120f;
         while (totalRotation > 1f)
         {
@@ -40,6 +40,7 @@ public class SubmarineSpecial : MonoBehaviour {
             Hatch.RotateAround(HingeJoint.position, HingeJoint.right, -rotationAmount);
             yield return null;
         }
+        Hatch.RotateAround(HingeJoint.position, HingeJoint.right, -totalRotation);
 
         Flag.gameObject.SetActive(true);
         Flag.GetComponentInChildren<Cloth>().externalAcceleration = new Vector3(3, 0, -1);
@@ -61,5 +62,34 @@ public class SubmarineSpecial : MonoBehaviour {
             Flag.position += Flag.transform.up * raiseDist;
             yield return null;
         }
+
+        Flag.position += Flag.transform.up * flagRaiseDistance;
+    }
+
+    private IEnumerator ReverseSpecial()
+    {
+        Flag.GetComponentInChildren<Cloth>().externalAcceleration = new Vector3(3, 0, -1);
+
+        float flagFallDistance = 4f;
+        while (flagFallDistance > 1f)
+        {
+            float fallDist = Mathf.Lerp(0, flagFallDistance, Time.deltaTime * 2);
+            flagFallDistance -= fallDist;
+            Flag.position -= Flag.transform.up * fallDist;
+            yield return null;
+        }
+
+        Flag.position -= Flag.transform.up * (flagFallDistance - 1f);
+        Flag.gameObject.SetActive(false);
+
+        float totalRotation = 120f;
+        while (totalRotation > 1f)
+        {
+            float rotationAmount = Time.deltaTime * 360f;
+            totalRotation -= rotationAmount;
+            Hatch.RotateAround(HingeJoint.position, HingeJoint.right, rotationAmount);
+            yield return null;
+        }
+        Hatch.RotateAround(HingeJoint.position, HingeJoint.right, totalRotation);
     }
 }

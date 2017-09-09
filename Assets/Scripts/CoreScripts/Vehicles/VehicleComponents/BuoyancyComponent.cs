@@ -7,7 +7,6 @@ public class BuoyancyComponent : MonoBehaviour {
     
     private Rigidbody body;
     private Mesh submarineMesh;
-    private WaterControl waterControl;
 
     private float sprayTimer;
     private const float sprayInterval = 0.01f;
@@ -23,7 +22,6 @@ public class BuoyancyComponent : MonoBehaviour {
     {
         body = GetComponentInParent<Rigidbody>();
         submarineMesh = GetComponent<MeshFilter>().mesh;
-        waterControl = FindObjectOfType<WaterControl>();
     }
 
     private void FixedUpdate()
@@ -79,7 +77,7 @@ public class BuoyancyComponent : MonoBehaviour {
 
             Vector3 triangleCenter = GetCenterPoint(vertices);
             float triangleArea = GetTriangleArea(vertices);
-            float waterHeightAtCenter = waterControl.GetWaveYPos(triangleCenter) + surfaceDistance;
+            float waterHeightAtCenter = WaterControl.GetWaveYPos(triangleCenter) + surfaceDistance;
             CalculateForceAtPosition(triangleCenter, triangleArea, waterHeightAtCenter);
 
             if (ShowBuoyancyEdges)

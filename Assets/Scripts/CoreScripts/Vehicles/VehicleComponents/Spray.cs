@@ -7,8 +7,7 @@ public class Spray : MonoBehaviour {
     public Transform TopPoint;
     public Transform BottomPoint;
     public Transform SprayTf;
-
-    private WaterControl waterControl;
+    
     private ParticleSystem sprayParticles;
 
     private Vector3 probeDirection;
@@ -25,7 +24,6 @@ public class Spray : MonoBehaviour {
     {
         submarineBody = FindObjectOfType<Submarine>().GetComponent<Rigidbody>();
         audioSource = submarineBody.GetComponent<AudioSource>();
-        waterControl = FindObjectOfType<WaterControl>();
         sprayParticles = SprayTf.GetComponentInChildren<ParticleSystem>();
         sprayParticles.Stop();
 
@@ -34,7 +32,7 @@ public class Spray : MonoBehaviour {
 	
 	private void Update ()
     {
-        float waterHeight = waterControl.GetWaveYPos(SprayTf.position);
+        float waterHeight = WaterControl.GetWaveYPos(SprayTf.position);
         SetSprayPos(waterHeight);
     }
     

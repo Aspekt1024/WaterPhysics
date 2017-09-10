@@ -96,6 +96,14 @@ public class Submarine : MonoBehaviour, IHasBuoyancy, ISubmergable, IHasSpecial,
 
     public bool SetPeriscopeMode()
     {
+        if (state == State.Floating)
+        {
+            foreach (Spray spray in GetComponentsInChildren<Spray>())
+            {
+                spray.ActivateSplash();
+            }
+        }
+
         buoyancyComponent.PeriscopeMode();
         state = State.Periscope;
         return true;

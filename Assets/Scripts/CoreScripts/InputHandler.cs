@@ -24,41 +24,58 @@ public class InputHandler {
     public KeyCode SET_FALLING_SCENE = KeyCode.Keypad7;
 
     private GameController gameController;
-
+    
     public InputHandler(GameController controller)
     {
         gameController = controller;
     }
 
+    // TODO if any of the method names change, this will break
+    // Learn how to get the method name dynamically using C#4
     public void ProcessInput()
     {
-        if (Input.GetKey(TURN_LEFT)) gameController.TurnLeftPressed();
-        if (Input.GetKey(TURN_RIGHT)) gameController.TurnRightPressed();
+        if (Input.GetKey(TURN_LEFT)) CallTrackedMethod("TurnLeftPressed");
+        if (Input.GetKey(TURN_RIGHT)) CallTrackedMethod("TurnRightPressed");
 
         if (Input.GetKey(ACCELERATE))
         {
-            if (Input.GetKey(LEFT_SHIFT)) gameController.TurboAcceleratePressed();
-            else gameController.AcceleratePressed();
+            if (Input.GetKey(LEFT_SHIFT)) CallTrackedMethod("TurboAcceleratePressed");
+            else CallTrackedMethod("AcceleratePressed");
         }
 
-        if (Input.GetKeyDown(SET_FLOAT_MODE)) gameController.FloatModePressed();
-        if (Input.GetKeyDown(SET_PERISCOPE_MODE)) gameController.PeriscopeModePressed();
-        if (Input.GetKeyDown(SET_SUBMERGED_MODE)) gameController.SubmergedModePressed();
+        if (Input.GetKeyDown(SET_FLOAT_MODE)) CallTrackedMethod("FloatModePressed");
+        if (Input.GetKeyDown(SET_PERISCOPE_MODE)) CallTrackedMethod("PeriscopeModePressed");
+        if (Input.GetKeyDown(SET_SUBMERGED_MODE)) CallTrackedMethod("SubmergedModePressed");
 
-        if (Input.GetKeyDown(SPECIAL)) gameController.SpecialPressed();
-        if (Input.GetKeyDown(TOGGLE_CAMERA_FOLLOW)) gameController.ToggleCameraFollowPressed();
+        if (Input.GetKeyDown(SPECIAL)) CallTrackedMethod("SpecialPressed");
+        if (Input.GetKeyDown(TOGGLE_CAMERA_FOLLOW)) CallTrackedMethod("ToggleCameraFollowPressed");
 
-        if (Input.GetKeyDown(SET_ENTRANCE_SCENE1)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance1);
-        if (Input.GetKeyDown(SET_ENTRANCE_SCENE2)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance2);
-        if (Input.GetKeyDown(SET_ENTRANCE_SCENE3)) gameController.SetGameStart(SceneDirectorManager.StartModes.Entrance3);
-        if (Input.GetKeyDown(SET_EXIT_SCENE1)) gameController.SetGameStart(SceneDirectorManager.StartModes.Exit1);
-        if (Input.GetKeyDown(SET_EXIT_SCENE2)) gameController.SetGameStart(SceneDirectorManager.StartModes.Exit2);
-        if (Input.GetKeyDown(SET_EXIT_SCENE3)) gameController.SetGameStart(SceneDirectorManager.StartModes.Exit3);
-        if (Input.GetKeyDown(SET_FALLING_SCENE)) gameController.SetGameStart(SceneDirectorManager.StartModes.Falling);
+        if (Input.GetKeyDown(SET_ENTRANCE_SCENE1)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Entrance1);
+        if (Input.GetKeyDown(SET_ENTRANCE_SCENE2)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Entrance2);
+        if (Input.GetKeyDown(SET_ENTRANCE_SCENE3)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Entrance3);
+        if (Input.GetKeyDown(SET_EXIT_SCENE1)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Exit1);
+        if (Input.GetKeyDown(SET_EXIT_SCENE2)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Exit2);
+        if (Input.GetKeyDown(SET_EXIT_SCENE3)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Exit3);
+        if (Input.GetKeyDown(SET_FALLING_SCENE)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Falling);
     }
 
-    public bool UnpausedPressed()
+    public void CheckUnpausePressed()
     {
-        return Input.GetKeyDown(SPECIAL);
+        if(Input.GetKeyDown(SPECIAL))
+        {
+            CallTrackedMethod("SetUnpaused");
+        }
+    }
+
+    private void CallTrackedMethod(string methodName)
+    {
+        ActionCapture.AddAction(methodName, Time.time, hasMode:false);
+        gameController.SendMessage(methodName);
+    }
+
+    private void CallTrackedMethod(string methodName, SceneDirectorManager.StartModes mode)
+    {
+        ActionCapture.AddAction(methodName, Time.time, hasMode:true, mode:mode);
+        gameController.SendMessage(methodName, mode);
     }
 }

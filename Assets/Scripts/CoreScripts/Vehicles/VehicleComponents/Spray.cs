@@ -20,6 +20,11 @@ public class Spray : MonoBehaviour {
 
     private AudioClip splash;
         
+    public void ActivateSplash()
+    {
+        StartCoroutine(SplashRoutine());
+    }
+
     private void Start ()
     {
         submarineBody = FindObjectOfType<Submarine>().GetComponent<Rigidbody>();

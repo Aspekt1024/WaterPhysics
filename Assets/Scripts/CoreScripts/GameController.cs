@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameController : MonoBehaviour {
 
     public Submarine Submarine;
     public Camera MainCamera;
-
+    
     private enum States
     {
-        None, Playing, Waiting, Paused, Unpausing, Pausing
+        None, Playing, Waiting, Paused, Unpausing, Pausing, Playback
     }
     private States state;
 
@@ -42,10 +43,9 @@ public class GameController : MonoBehaviour {
             case States.Waiting:
                 break;
             case States.Paused:
-                if (inputHandler.UnpausedPressed())
-                {
-                    state = States.Unpausing;
-                }
+                inputHandler.CheckUnpausePressed();
+                break;
+            case States.Playback:
                 break;
         }
 	}
@@ -57,31 +57,54 @@ public class GameController : MonoBehaviour {
         SceneDirectorManager.Instance.ResetToMode(mode);
         state = States.Pausing;
     }
+
+    public void SetPlaybackMode()
+    {
+        state = States.Playback;
+    }
+
+    public void SetPlayingMode()
+    {
+        state = States.Playing;
+    }
+
+    public void SetUnpaused()
+    {
+        state = States.Unpausing;
+    }
     #endregion
 
     #region PlayerInputs
     public void TurnLeftPressed()
     {
-        if (state != States.Playing) return;
-        Submarine.TurnLeft();
+        if (state == States.Playing || state == States.Playback)
+        {
+            Submarine.TurnLeft();
+        }
     }
 
     public void TurnRightPressed()
     {
-        if (state != States.Playing) return;
-        Submarine.TurnRight();
+        if (state == States.Playing || state == States.Playback)
+        {
+            Submarine.TurnRight();
+        }
     }
 
     public void AcceleratePressed()
     {
-        if (state != States.Playing) return;
-        Submarine.Accelerate();
+        if (state == States.Playing || state == States.Playback)
+        {
+            Submarine.Accelerate();
+        }
     }
 
     public void TurboAcceleratePressed()
     {
-        if (state != States.Playing) return;
-        Submarine.TurboAccelerate();
+        if (state == States.Playing || state == States.Playback)
+        {
+            Submarine.TurboAccelerate();
+        }
     }
 
     public void FloatModePressed() { Submarine.SetFloatMode(); }

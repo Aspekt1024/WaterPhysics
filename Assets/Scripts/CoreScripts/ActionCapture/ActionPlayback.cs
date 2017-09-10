@@ -38,7 +38,7 @@ public class ActionPlayback : MonoBehaviour {
     public static void PlayBack(string sessionName)
     {
         current.startTime = Time.time;
-        current.actions = ActionSerializer.Load(current.actionCapture.SessionName).Actions;
+        current.actions = ActionSerializer.Load(sessionName).Actions;
         current.isPlayingBack = true;
         current.actionIndex = 0;
         current.gameController.SetPlaybackMode();

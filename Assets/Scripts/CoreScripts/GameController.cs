@@ -7,10 +7,11 @@ public class GameController : MonoBehaviour {
 
     public Submarine Submarine;
     public Camera MainCamera;
+    public MenuControl MenuControl;
     
     private enum States
     {
-        None, Playing, Waiting, Paused, Unpausing, Pausing, Playback
+        None, Playing, Waiting, Paused, Unpausing, Pausing, Playback, InMenu
     }
     private States state;
 
@@ -20,7 +21,7 @@ public class GameController : MonoBehaviour {
     private void Start ()
     {
         inputHandler = new InputHandler(this);
-        state = States.Playing;
+        state = States.InMenu;
 	}
 	
 	private void Update ()
@@ -47,6 +48,8 @@ public class GameController : MonoBehaviour {
                 break;
             case States.Playback:
                 break;
+            case States.InMenu:
+                break;
         }
 	}
     #endregion
@@ -55,7 +58,7 @@ public class GameController : MonoBehaviour {
     public void SetGameStart(SceneDirectorManager.StartModes mode)
     {
         SceneDirectorManager.Instance.ResetToMode(mode);
-        state = States.Pausing;
+        state = States.Playing;
     }
 
     public void SetPlaybackMode()
@@ -75,6 +78,18 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region PlayerInputs
+    public void ShowMenuPressed()
+    {
+        if (MenuControl.MainMenuIsActive())
+        {
+            MenuControl.DisableMainMenu();
+        }
+        else
+        {
+            MenuControl.EnableMainMenu();
+        }
+    }
+
     public void TurnLeftPressed()
     {
         if (state == States.Playing || state == States.Playback)

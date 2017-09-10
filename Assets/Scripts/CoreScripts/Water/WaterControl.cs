@@ -48,6 +48,18 @@ public class WaterControl : MonoBehaviour {
         timeSinceStart = Time.time;
     }
 
+    public static void IncreaseWaveIntensity()
+    {
+        instance.WaveScale *= 1.1f;
+        instance.WaveDistance *= 1.03f;
+    }
+
+    public static void DecreaseWaveIntensity()
+    {
+        instance.WaveScale /= 1.1f;
+        instance.WaveDistance /= 1.03f;
+    }
+
     public static float GetWaveYPos(Vector3 position)
     {
         return WaveTypes.SinXWave(position, instance.Speed, instance.WaveScale, instance.WaveDistance, 0, 0, instance.timeSinceStart);

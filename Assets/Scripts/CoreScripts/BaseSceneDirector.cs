@@ -26,6 +26,8 @@ public abstract class BaseSceneDirector : MonoBehaviour {
     {
         submarine.transform.position = startPosition;
         submarine.transform.eulerAngles = startRotation;
+        submarine.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        submarine.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
         submarine.SetSubmarineState(startMode);
     }

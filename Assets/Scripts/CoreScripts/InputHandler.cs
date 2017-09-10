@@ -23,6 +23,11 @@ public class InputHandler {
     public KeyCode SET_EXIT_SCENE3 = KeyCode.Keypad6;
     public KeyCode SET_FALLING_SCENE = KeyCode.Keypad7;
 
+    public KeyCode INCREASE_WAVE_INTENSITY = KeyCode.KeypadPlus;
+    public KeyCode DECREASE_WAVE_INTENSITY = KeyCode.KeypadMinus;
+
+    public KeyCode SHOW_HIDE_MENU = KeyCode.Escape;
+
     private GameController gameController;
     
     public InputHandler(GameController controller)
@@ -57,6 +62,11 @@ public class InputHandler {
         if (Input.GetKeyDown(SET_EXIT_SCENE2)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Exit2);
         if (Input.GetKeyDown(SET_EXIT_SCENE3)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Exit3);
         if (Input.GetKeyDown(SET_FALLING_SCENE)) CallTrackedMethod("SetGameStart", SceneDirectorManager.StartModes.Falling);
+
+        if (Input.GetKeyDown(INCREASE_WAVE_INTENSITY)) WaterControl.IncreaseWaveIntensity();
+        if (Input.GetKeyDown(DECREASE_WAVE_INTENSITY)) WaterControl.DecreaseWaveIntensity();
+
+        if (Input.GetKeyDown(SHOW_HIDE_MENU)) gameController.ShowMenuPressed();
     }
 
     public void CheckUnpausePressed()

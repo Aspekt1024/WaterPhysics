@@ -11,7 +11,7 @@ public class MovementComponent : MonoBehaviour {
 
     private const float acceleration = 5f;
     private const float turboAcceleration = 12f;
-    private const float turnRotation = 60f;
+    private const float turnRotation = 40f;
     
     // TODO move this
     private AudioClip movement;
